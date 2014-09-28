@@ -4,64 +4,8 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9415ecfce67968d633483a204b569e29",
+    "hash": "668a181d4c030d48bc1056dfdd747df7",
     "packages": [
-        {
-            "name": "league/shunt",
-            "version": "v2.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/thephpleague/shunt.git",
-                "reference": "d95d83fb01e4648dd02b1f7aeb8b631581a3b33d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/shunt/zipball/d95d83fb01e4648dd02b1f7aeb8b631581a3b33d",
-                "reference": "d95d83fb01e4648dd02b1f7aeb8b631581a3b33d",
-                "shasum": ""
-            },
-            "require": {
-                "ext-ssh2": ">=0.12",
-                "php": ">=5.3.3",
-                "symfony/console": "~2.3"
-            },
-            "replace": {
-                "league/grunt": "*"
-            },
-            "require-dev": {
-                "league/phpunit-coverage-listener": "~1.0",
-                "phpunit/phpunit": "~3.7.10",
-                "symfony/finder": "~2.2",
-                "symfony/process": "~2.1@dev"
-            },
-            "bin": [
-                "bin/shunt"
-            ],
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "League\\Shunt": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Taufan Aditya",
-                    "email": "toopay@taufanaditya.com",
-                    "homepage": "http://taufanaditya.com",
-                    "role": "lead"
-                }
-            ],
-            "description": "PHP library for executing commands in parallel on multiple remote machines, via SSH",
-            "homepage": "https://github.com/php-loep/shunt",
-            "keywords": [
-                "ssh"
-            ],
-            "time": "2013-10-28 06:10:58"
-        },
         {
             "name": "liip/rmt",
             "version": "1.0.4",
@@ -118,48 +62,6 @@
                 "version"
             ],
             "time": "2014-04-03 20:45:34"
-        },
-        {
-            "name": "luxifer/symfony-repl",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/luxifer/symfony-repl.git",
-                "reference": "2941794c8142f4b24dd71c8b60253dd44b4351c8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/luxifer/symfony-repl/zipball/2941794c8142f4b24dd71c8b60253dd44b4351c8",
-                "reference": "2941794c8142f4b24dd71c8b60253dd44b4351c8",
-                "shasum": ""
-            },
-            "require": {
-                "psy/psysh": "~0.1.8"
-            },
-            "bin": [
-                "bin/symfony-repl"
-            ],
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Florent Viel",
-                    "email": "florent.viel69@gmail.com",
-                    "homepage": "http://florentviel.com"
-                }
-            ],
-            "description": "symfony REPL on top of psysh",
-            "keywords": [
-                "REPL",
-                "console",
-                "interactive",
-                "shell",
-                "symfony"
-            ],
-            "time": "2014-05-02 17:39:52"
         },
         {
             "name": "nikic/php-parser",
@@ -269,17 +171,17 @@
         },
         {
             "name": "symfony/console",
-            "version": "v2.5.3",
+            "version": "v2.5.5",
             "target-dir": "Symfony/Component/Console",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "cd2d1e4bac2206b337326b0140ff475fe9ad5f63"
+                "reference": "ca053eaa031c93afb68a71e4eb1f4168dfd4a661"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/cd2d1e4bac2206b337326b0140ff475fe9ad5f63",
-                "reference": "cd2d1e4bac2206b337326b0140ff475fe9ad5f63",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/ca053eaa031c93afb68a71e4eb1f4168dfd4a661",
+                "reference": "ca053eaa031c93afb68a71e4eb1f4168dfd4a661",
                 "shasum": ""
             },
             "require": {
@@ -320,21 +222,21 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2014-08-05 09:00:40"
+            "time": "2014-09-25 09:53:56"
         },
         {
             "name": "symfony/process",
-            "version": "v2.5.3",
+            "version": "v2.5.5",
             "target-dir": "Symfony/Component/Process",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Process.git",
-                "reference": "e0997d2a9a1a763484b34b989900b61322a9b056"
+                "reference": "8a1ec96c4e519cee0fb971ea48a1eb7369dda54b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Process/zipball/e0997d2a9a1a763484b34b989900b61322a9b056",
-                "reference": "e0997d2a9a1a763484b34b989900b61322a9b056",
+                "url": "https://api.github.com/repos/symfony/Process/zipball/8a1ec96c4e519cee0fb971ea48a1eb7369dda54b",
+                "reference": "8a1ec96c4e519cee0fb971ea48a1eb7369dda54b",
                 "shasum": ""
             },
             "require": {
@@ -367,21 +269,21 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "http://symfony.com",
-            "time": "2014-08-05 09:00:40"
+            "time": "2014-09-23 05:25:11"
         },
         {
             "name": "symfony/yaml",
-            "version": "v2.5.3",
+            "version": "v2.5.5",
             "target-dir": "Symfony/Component/Yaml",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "5a75366ae9ca8b4792cd0083e4ca4dff9fe96f1f"
+                "reference": "b1dbc53593b98c2d694ebf383660ac9134d30b96"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/5a75366ae9ca8b4792cd0083e4ca4dff9fe96f1f",
-                "reference": "5a75366ae9ca8b4792cd0083e4ca4dff9fe96f1f",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/b1dbc53593b98c2d694ebf383660ac9134d30b96",
+                "reference": "b1dbc53593b98c2d694ebf383660ac9134d30b96",
                 "shasum": ""
             },
             "require": {
@@ -414,15 +316,14 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "http://symfony.com",
-            "time": "2014-08-05 09:00:40"
+            "time": "2014-09-22 09:14:18"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "psy/psysh": 0,
-        "luxifer/symfony-repl": 20
+        "psy/psysh": 0
     },
     "prefer-stable": false,
     "platform": [],
