@@ -1,0 +1,11 @@
+hardstatus alwayslastline
+hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B} %d/%m %{W}%c %{g}]'
+
+bell_msg "Bell in window %n^G"
+defnonblock on
+
+encoding utf-8
+defencoding utf-8
+defutf8 on
+utf8 on
+

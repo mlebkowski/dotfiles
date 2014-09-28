@@ -1,0 +1,19 @@
+ln	bin/*			bin/
+
+# misc
+ln	misc/screenrc
+ln	misc/ascii.io		.ascii.io/config
+ln	misc/composer/*		.composer/
+ln	misc/ftcurlish.json
+
+# fish
+ln	fish/config.fish	.config/fish/
+ln	fish/functions/*	.config/fish/functions/
+
+# git
+ln	git/gitignore
+ln	git/gitconfig
+
+# ssh
+ln	ssh/authorized_keys	.ssh/
+ln	ssh/config		.ssh/

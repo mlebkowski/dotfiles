@@ -1,0 +1,71 @@
+{
+  "curl_path": "curl", 
+  "http_port": 62231, 
+  "json_indent": 2, 
+  "sites": {
+    "serum-dev": {
+      "extra_headers": {}, 
+      "request_token_params": {}, 
+      "authorize_url": "/oauth/v2/auth", 
+      "base_url": "http://serumapi.dev", 
+      "bearer_transmission": "query", 
+      "client_id": "1_1s577t6kolhc4cggcck0ss4kg0gco0kkc8084804wock4ow4og", 
+      "client_secret": "437gpnc0xn0gosgcwos008soo0oocowowkkk0g44gkgc08csgg", 
+      "grant_type": "password", 
+      "access_token_url": "/oauth/v2/token"
+    }, 
+    "facebook": {
+      "extra_headers": {}, 
+      "request_token_params": {
+        "scope": "email"
+      }, 
+      "authorize_url": "https://www.facebook.com/dialog/oauth", 
+      "base_url": "https://graph.facebook.com/", 
+      "client_id": "384088028278656", 
+      "client_secret": "14c75a494cda2e11e8760095ec972915", 
+      "grant_type": "authorization_code", 
+      "access_token_url": "/oauth/access_token"
+    }, 
+    "serum": {
+      "extra_headers": {}, 
+      "request_token_params": {}, 
+      "authorize_url": "/oauth/v2/auth", 
+      "base_url": "http://serum.herokuapp.com", 
+      "bearer_transmission": "query", 
+      "client_id": "1_1s577t6kolhc4cggcck0ss4kg0gco0kkc8084804wock4ow4og", 
+      "client_secret": "437gpnc0xn0gosgcwos008soo0oocowowkkk0g44gkgc08csgg", 
+      "grant_type": "authorization_code", 
+      "access_token_url": "/oauth/v2/token"
+    }, 
+    "github": {
+      "extra_headers": {}, 
+      "request_token_params": {
+        "scope": "user,repo"
+      }, 
+      "authorize_url": "https://github.com/login/oauth/authorize", 
+      "base_url": "https://api.github.com/", 
+      "bearer_transmission": "query", 
+      "client_id": "2a95036bf16aa67e51e2", 
+      "client_secret": "ec91ee4ae7c6889ff5de8b76ebd42d949b67ea89", 
+      "grant_type": "authorization_code", 
+      "access_token_url": "https://github.com/login/oauth/access_token"
+    }
+  }, 
+  "colors": {
+    "constant": "blue", 
+    "string": "yellow", 
+    "objstring": "green", 
+    "jsonpfunc": null, 
+    "number": "purple", 
+    "statusline_ok": "green", 
+    "header": "teal", 
+    "statusline_error": "red", 
+    "operator": null, 
+    "brace": "teal"
+  }, 
+  "token_cache": {
+    "serum-dev": "YWM3MTczNTAzMDkyZDE5NzZiNGM0ZDBiNTI4MzM3ZWVjODkzYTI4YzE4ODQ5MDIxMjZkNjY5MzY0YTExYzQ1YQ", 
+    "github": "19554acdc4519eb3c8877e0db95925ce4472cb5c", 
+    "facebook": "AAAFdU3ZA874ABAHDawJBgk7g3SAZBqHLpNkLDMVrWWxJzLDTo1DntkLXfKSmmhskFBKxLKmnbmIOORspKNfIR31l36om2nHDNIhY6QUAZDZD"
+  }
+}

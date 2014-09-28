@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+set -ueo pipefail
+
+DOTFILES_PATH="$HOME/.dotfiles"
+
+while read line; do
+	cmd=$(echo "$line" | awk -F"\t+" '{print $1}')
+	src=$(echo "$line" | awk -F"\t+" '{print $2}')
+	dest=$(echo "$line" | awk -F"\t+" '{print $3}')
+
+	if [ -n "$dest" ]; then
+		if [[ "$dest" =~ /$ ]] ; then
+			mkdir -p "$HOME/$dest";
+		else 
+			mkdir -p $(dirname "$HOME/$dest");
+		fi
+	else
+		dest=.$(basename "$src")
+	fi
+	
+	case $cmd in
+		ln|symlink)
+			ln -sfv "$DOTFILES_PATH/"$src "$HOME/$dest"
+		;;
+	esac
+done < <(grep -vE -e "^\s*#" -e "^\s*$" "$DOTFILES_PATH/install")

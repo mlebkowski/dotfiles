@@ -1,0 +1,8 @@
+{
+    "require": {
+        "liip/rmt": "1.0.*",
+        "league/shunt": "~2.0",
+        "psy/psysh": "@stable",
+        "luxifer/symfony-repl": "@dev"
+    }
+}
