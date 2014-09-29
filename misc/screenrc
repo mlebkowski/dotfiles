@@ -4,8 +4,9 @@ hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u
 bell_msg "Bell in window %n^G"
 defnonblock on
 
+startup_message off
+
 encoding utf-8
 defencoding utf-8
 defutf8 on
-utf8 on
 

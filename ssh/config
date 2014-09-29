@@ -1,18 +1,56 @@
 Host *
-        ServerAliveInterval 120
-        TCPKeepAlive no
+	ServerAliveInterval 120
+	TCPKeepAlive no
 
 Host *.foser.net
 	User zl
-        ForwardAgent yes
+	ForwardAgent yes
 	IdentityFile ~/.ssh/znany_rsa
+	ControlMaster auto
+	ControlPath ~/.ssh/ssh_mux_%h_%p_%r
+	ControlPersist yes
 
 Host narzekasz.pl
-        User puck
-        ForwardAgent yes
+	User puck
+	ForwardAgent yes
 
 Host bob
-        User mlebkowski
-        Hostname bob.golden
-        ForwardAgent yes
+	User mlebkowski
+	Hostname bob.golden
+	ForwardAgent yes
+
+Host multimedia-energia.pl
+	User energia
+	ProxyCommand ssh -q nassau nc multimedia-energia.pl 22
+
+Host z??.foser.net
+	User zl
+	IdentityFile ~/.ssh/zl_rsa
+	SendEnv ZL_EMAIL
+	ForwardAgent yes
+
+Host vagrant
+	User vagrant
+	Hostname 127.0.0.1
+	Port 2222
+	IdentityFile ~/.vagrant.d/insecure_private_key
+	Compression no
+	Ciphers arcfour
+
+Host fernet
+	Hostname fernet.foser.net
+	User zl
+	IdentityFile ~/.ssh/zl_rsa
+	SendEnv ZL_EMAIL
+	ForwardAgent yes
+
+Host advocat
+	Hostname advocat.golden
+	User zl
+	IdentityFile ~/.ssh/znany_rsa
+
+Host github.com
+	User git
+	IdentityFile ~/.ssh/id_rsa
+	IdentityFile ~/.ssh/github_rsa
 

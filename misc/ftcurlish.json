@@ -3,37 +3,25 @@
   "http_port": 62231, 
   "json_indent": 2, 
   "sites": {
-    "serum-dev": {
+    "znanylekarz": {
       "extra_headers": {}, 
       "request_token_params": {}, 
-      "authorize_url": "/oauth/v2/auth", 
-      "base_url": "http://serumapi.dev", 
+      "authorize_url": "/authorize", 
+      "base_url": "http://local.znanylekarz.pl/api/", 
       "bearer_transmission": "query", 
-      "client_id": "1_1s577t6kolhc4cggcck0ss4kg0gco0kkc8084804wock4ow4og", 
-      "client_secret": "437gpnc0xn0gosgcwos008soo0oocowowkkk0g44gkgc08csgg", 
-      "grant_type": "password", 
-      "access_token_url": "/oauth/v2/token"
-    }, 
-    "facebook": {
-      "extra_headers": {}, 
-      "request_token_params": {
-        "scope": "email"
-      }, 
-      "authorize_url": "https://www.facebook.com/dialog/oauth", 
-      "base_url": "https://graph.facebook.com/", 
-      "client_id": "384088028278656", 
-      "client_secret": "14c75a494cda2e11e8760095ec972915", 
+      "client_id": "c9c175a39b90", 
+      "client_secret": "8fb463cbcb4edea4d5f3fbeec5c8771a1cabca15", 
       "grant_type": "authorization_code", 
-      "access_token_url": "/oauth/access_token"
+      "access_token_url": "/api/request-token"
     }, 
-    "serum": {
+    "local.znanylekarz.pl": {
       "extra_headers": {}, 
       "request_token_params": {}, 
       "authorize_url": "/oauth/v2/auth", 
-      "base_url": "http://serum.herokuapp.com", 
-      "bearer_transmission": "query", 
-      "client_id": "1_1s577t6kolhc4cggcck0ss4kg0gco0kkc8084804wock4ow4og", 
-      "client_secret": "437gpnc0xn0gosgcwos008soo0oocowowkkk0g44gkgc08csgg", 
+      "base_url": "http://local.znanylekarz.pl", 
+      "bearer_transmission": "header", 
+      "client_id": "1_546", 
+      "client_secret": "9f29efd398c0330dd8d3d5c8e34ad108", 
       "grant_type": "authorization_code", 
       "access_token_url": "/oauth/v2/token"
     }, 
@@ -49,22 +37,34 @@
       "client_secret": "ec91ee4ae7c6889ff5de8b76ebd42d949b67ea89", 
       "grant_type": "authorization_code", 
       "access_token_url": "https://github.com/login/oauth/access_token"
+    }, 
+    "facebook": {
+      "extra_headers": {}, 
+      "request_token_params": {
+        "scope": "email"
+      }, 
+      "authorize_url": "https://www.facebook.com/dialog/oauth", 
+      "base_url": "https://graph.facebook.com/", 
+      "client_id": "384088028278656", 
+      "client_secret": "14c75a494cda2e11e8760095ec972915", 
+      "grant_type": "authorization_code", 
+      "access_token_url": "/oauth/access_token"
     }
   }, 
   "colors": {
     "constant": "blue", 
     "string": "yellow", 
-    "objstring": "green", 
+    "header": "teal", 
     "jsonpfunc": null, 
     "number": "purple", 
     "statusline_ok": "green", 
-    "header": "teal", 
+    "objstring": "green", 
     "statusline_error": "red", 
     "operator": null, 
     "brace": "teal"
   }, 
   "token_cache": {
-    "serum-dev": "YWM3MTczNTAzMDkyZDE5NzZiNGM0ZDBiNTI4MzM3ZWVjODkzYTI4YzE4ODQ5MDIxMjZkNjY5MzY0YTExYzQ1YQ", 
+    "local.znanylekarz.pl": null, 
     "github": "19554acdc4519eb3c8877e0db95925ce4472cb5c", 
     "facebook": "AAAFdU3ZA874ABAHDawJBgk7g3SAZBqHLpNkLDMVrWWxJzLDTo1DntkLXfKSmmhskFBKxLKmnbmIOORspKNfIR31l36om2nHDNIhY6QUAZDZD"
   }

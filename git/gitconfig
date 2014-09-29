@@ -90,3 +90,8 @@
 
 [help]
 	autocorrect = 1
+
+[advice]
+        pushNonFastForward = false
+        statusHints = false
+
