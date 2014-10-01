@@ -25,3 +25,22 @@ while read line; do
 		;;
 	esac
 done < <(grep -vE -e "^\s*#" -e "^\s*$" "$DOTFILES_PATH/install")
+
+(
+	cd "$DOTFILES_PATH"
+	npm install
+	pip install -r requirements.txt --user --install-option="--install-scripts=$HOME/bin"
+)
+
+if [ -f "$HOME/bin/composer" ]; then
+	"$HOME/bin/composer" self-update
+else
+	(
+		cd $HOME/bin
+		curl -s http://getcomposer.org/installer | php -- --filename="composer"
+		chmod a+x composer
+	)
+fi
+
+composer global install
+
