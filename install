@@ -17,3 +17,6 @@ ln	git/gitconfig
 # ssh
 ln	ssh/authorized_keys	.ssh/
 ln	ssh/config		.ssh/
+
+# fonts
+ln	Fonts/*			Library/Fonts/
