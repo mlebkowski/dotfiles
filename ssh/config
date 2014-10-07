@@ -14,6 +14,11 @@ Host narzekasz.pl
 	User puck
 	ForwardAgent yes
 
+Host nassau
+	User puck
+	Hostname nassau.one.pl
+	ForwardAgent yes
+
 Host bob
 	User mlebkowski
 	Hostname bob.golden
@@ -21,7 +26,7 @@ Host bob
 
 Host multimedia-energia.pl
 	User energia
-	ProxyCommand ssh -q nassau nc multimedia-energia.pl 22
+	ProxyCommand ssh -q puck@nassau.one.pl nc multimedia-energia.pl 22
 
 Host z??.foser.net
 	User zl
