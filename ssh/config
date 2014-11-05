@@ -59,3 +59,6 @@ Host github.com
 	IdentityFile ~/.ssh/id_rsa
 	IdentityFile ~/.ssh/github_rsa
 
+Host manuae
+	Hostname manuae.narzekasz.pl
+	User mlebkowski
