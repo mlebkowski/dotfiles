@@ -20,3 +20,5 @@ ln	ssh/config		.ssh/
 
 # fonts
 ln	Fonts/*			Library/Fonts/
+
+ln	php/*			%php.d%
