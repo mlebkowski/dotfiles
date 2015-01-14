@@ -11,7 +11,7 @@ while read line; do
 
 	case "$dest" in
 		"%php.d%")
-			dest=$(php -i |grep additional | awk -F ' => ' '{ print $2 }')
+			dest=$(php -i |grep additional | awk -F ' => ' '{ print $2 }')/
 		;;
 		"")
 			dest="$HOME/.$(basename "$src")"
@@ -23,18 +23,23 @@ while read line; do
 		;;
 	esac
 
+	prefix=""
+	if [ ! -O "$dest" ]; then
+		prefix="sudo"
+	fi
+
 	if [ -n "$dest" ]; then
 		if [[ "$dest" =~ /$ ]] ; then
-			mkdir -p "$HOME/$dest";
+			$prefix mkdir -p "$dest";
 		else 
-			mkdir -p $(dirname "$HOME/$dest");
+			$prefix mkdir -p $(dirname "$dest");
 		fi
 	fi
 
 	
 	case $cmd in
 		ln|symlink)
-			ln -sfv "$DOTFILES_PATH/"$src "$dest"
+			$prefix ln -sfv "$DOTFILES_PATH/"$src "$dest"
 		;;
 	esac
 done < <(grep -vE -e "^\s*#" -e "^\s*$" "$DOTFILES_PATH/install")
