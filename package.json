@@ -1,4 +1,5 @@
 {
+  "private": true,
   "dependencies": {
     "yamljs": "^0.2.0",
     "less": "~2.2",

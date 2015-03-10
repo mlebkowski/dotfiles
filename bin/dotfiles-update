@@ -50,11 +50,11 @@ done < <(grep -vE -e "^\s*#" -e "^\s*$" "$DOTFILES_PATH/install")
 	cd "$DOTFILES_PATH"
 	command -v brew && brew install $(cat brew/packages) || :
 	npm install
-	pip install -r requirements.txt --user --install-option="--install-scripts=$HOME/bin"
+	pip install -q -r requirements.txt --user --install-option="--install-scripts=$HOME/bin"
 )
 
 if [ -f "$HOME/bin/composer" ]; then
-	"$HOME/bin/composer" self-update
+	"$HOME/bin/composer" self-update --quiet
 else
 	(
 		cd $HOME/bin
@@ -63,5 +63,5 @@ else
 	)
 fi
 
-composer global install
+composer global install --quiet
 
