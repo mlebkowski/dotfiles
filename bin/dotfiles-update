@@ -48,7 +48,7 @@ done < <(grep -vE -e "^\s*#" -e "^\s*$" "$DOTFILES_PATH/install")
 
 (
 	cd "$DOTFILES_PATH"
-	brew install (cat brew/packages)
+	command -v brew && brew install $(cat brew/packages) || :
 	npm install
 	pip install -r requirements.txt --user --install-option="--install-scripts=$HOME/bin"
 )
