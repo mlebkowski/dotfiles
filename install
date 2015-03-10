@@ -8,6 +8,7 @@ ln	misc/ftcurlish.json
 
 # fish
 ln	fish/config.fish	.config/fish/
+ln	fish/*.fish		.config/fish/
 ln	fish/functions/*	.config/fish/functions/
 
 # git
@@ -19,6 +20,10 @@ ln	ssh/authorized_keys	.ssh/
 ln	ssh/config		.ssh/
 
 # fonts
-ln	Fonts/*			Library/Fonts/
+# ln	Fonts/*			Library/Fonts/
 
 ln	php/*			%php.d%
+
+def	com.apple.Dock showhidden -bool true
+def	ApplePressAndHoldEnabled -bool false
+

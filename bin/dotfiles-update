@@ -41,11 +41,14 @@ while read line; do
 		ln|symlink)
 			$prefix ln -sfv "$DOTFILES_PATH/"$src "$dest"
 		;;
+		def)
+			defaults write $src
 	esac
 done < <(grep -vE -e "^\s*#" -e "^\s*$" "$DOTFILES_PATH/install")
 
 (
 	cd "$DOTFILES_PATH"
+	brew install (cat brew/packages)
 	npm install
 	pip install -r requirements.txt --user --install-option="--install-scripts=$HOME/bin"
 )
