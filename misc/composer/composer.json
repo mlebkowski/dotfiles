@@ -1,6 +1,7 @@
 {
     "require": {
         "liip/rmt": "1.0.*",
-        "psy/psysh": "@stable"
+        "psy/psysh": "@stable",
+        "phpunit/phpunit": "~4.5"
     }
 }
