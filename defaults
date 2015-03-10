@@ -1,0 +1,2 @@
+defaults write com.apple.Dock showhidden -bool YES
+defaults write -g ApplePressAndHoldEnabled -bool false
