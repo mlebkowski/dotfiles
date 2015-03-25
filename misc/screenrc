@@ -3,6 +3,7 @@ hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u
 
 bell_msg "Bell in window %n^G"
 defnonblock on
+defscrollback 10000
 
 startup_message off
 
