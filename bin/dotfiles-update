@@ -50,6 +50,7 @@ done < <(grep -vE -e "^\s*#" -e "^\s*$" "$DOTFILES_PATH/install")
 	cd "$DOTFILES_PATH"
 	command -v brew && brew install $(cat brew/packages) || :
 	npm install
+	gem install --user-install $(cat gem)
 	pip install -q -r requirements.txt --user --install-option="--install-scripts=$HOME/bin"
 )
 
