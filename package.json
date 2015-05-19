@@ -11,6 +11,7 @@
     "grunt-cli": "~0.1",
     "grunt-contrib-sass": "*",
     "bower": "*",
-    "nassau-https-proxy": "*"
+    "nassau-https-proxy": "*",
+    "ungit": "*"
   }
 }
