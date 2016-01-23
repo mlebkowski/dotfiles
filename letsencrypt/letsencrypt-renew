@@ -1,0 +1,74 @@
+#!/bin/bash
+
+set -euo pipefail
+
+DOKKU_HOME=${DOKKU_HOME:-/home/dokku}
+TLS_HOME=${TLS_HOME:-"/home/puck/lets_encrypt/etc"}
+
+project_to_domain() {
+	for project in "$@"; do
+		awk -F/ '{ print $3 }' < "$DOKKU_HOME/$project/URL"
+	done
+}
+
+dokku_domains() {
+	project_to_domain $(find /home/dokku/* -type d -name tls | xargs -n 1 dirname | xargs -n 1 basename)
+}
+
+find_dokku_project() {
+	if [ -d "/home/dokku/$1" ]; then
+		echo $1;
+		return;
+	fi
+
+	basename $(dirname $(grep -l $1 "$DOKKU_HOME"/*/URL))
+}
+
+cert_expires() {
+	! openssl x509 -in "$1" -noout -checkend 604800
+}
+
+renew_domains() {
+	for domain in $@; do
+
+		cert="$TLS_HOME/live/$domain/fullchain.pem"
+		key="$TLS_HOME/live/$domain/privkey.pem"
+
+		if [ -f "$cert" ] && ! cert_expires "$cert"; then
+			continue;
+		fi
+
+		letsencrypt certonly --webroot --webroot-path /data/www --renew-by-default -d "$domain"
+
+		project=$(find_dokku_project "$domain")
+		dir="$DOKKU_HOME/$project"
+
+		if [ ! -d "$dir" ]; then
+			echo "$domain project not found" >&2
+			continue;
+		fi;
+
+		mkdir -p "$dir/tls"
+		if [ -L "$cert" ] && [ -L "$key" ]; then
+			ln -fs "$cert" "$dir/tls/server.crt"
+			ln -fs "$key" "$dir/tls/server.key"
+		fi
+
+		dokku deploy $project
+
+	done;
+}
+
+main () {
+
+	if [ -z "${1:-}" ]; then
+		domains=$(dokku_domains)
+	else
+		domains=$@
+	fi
+
+	renew_domains "$domains"
+}
+
+main "$@"
+

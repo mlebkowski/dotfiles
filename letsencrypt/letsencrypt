@@ -1,0 +1,9 @@
+#!/bin/bash
+
+docker run -it --rm \
+	-v "$HOME/lets_encrypt/etc:/etc/letsencrypt" \
+	-v "$HOME/lets_encrypt/lib:/var/lib/letsencrypt" \
+	-v "$HOME/lets_encrypt/log:/var/log/letsencrypt" \
+	-v /data/www:/data/www \
+	 quay.io/letsencrypt/letsencrypt:latest --server https://acme-v01.api.letsencrypt.org/directory "$@"
+
