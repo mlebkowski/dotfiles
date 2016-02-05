@@ -11,3 +11,4 @@ encoding utf-8
 defencoding utf-8
 defutf8 on
 
+setenv SSH_AUTH_SOCK $HOME/.ssh/ssh_auth_sock
