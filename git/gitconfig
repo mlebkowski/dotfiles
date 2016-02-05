@@ -95,3 +95,8 @@
 [advice]
         pushNonFastForward = false
         statusHints = false
+
+# https://gist.github.com/mlebkowski/e6fb4f379d3367c3756f
+[filter "phar"]
+	clean = "sed -e s,[.]phar/,.phar,g -e s,[.]phar,.phar/,g | perl -pe \"chomp if eof\" "
+	smudge = sed s,[.]phar/,.phar,g
