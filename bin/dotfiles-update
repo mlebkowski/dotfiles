@@ -11,6 +11,11 @@ while read line; do
 
 	case "$dest" in
 		"%php.d%")
+			if ! type php 2>&- >&-; then
+				echo "No PHP installed, skipping" >&2
+				continue;
+			fi
+
 			dest=$(php -i |grep additional | awk -F ' => ' '{ print $2 }')/
 		;;
 		"")
@@ -42,15 +47,15 @@ while read line; do
 			$prefix ln -sfv "$DOTFILES_PATH/"$src "$dest"
 		;;
 		def)
-			defaults write $src
+			command -v defaults >&- && defaults write $src
 	esac
 done < <(grep -vE -e "^\s*#" -e "^\s*$" "$DOTFILES_PATH/install")
 
 (
 	cd "$DOTFILES_PATH"
-	command -v brew && brew install $(cat brew/packages) || :
-	npm install
-	gem install --user-install $(cat gem)
+	command -v brew >&- && brew install $(cat brew/packages) || echo "Skipping brew install because there is no brew present"
+	command -v npm >&- && npm install || echo "Skipping npm install because there is no npm present"
+	command -v gem >&- gem install --user-install $(cat gem) || echo "Skipping gem install because there is no gem present"
 	pip install -q -r requirements.txt --user --install-option="--install-scripts=$HOME/bin"
 )
 
