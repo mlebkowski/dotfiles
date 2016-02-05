@@ -1,7 +1,8 @@
 {
     "require": {
-        "liip/rmt": "1.0.*",
+        "liip/rmt": "~1.0",
         "psy/psysh": "@stable",
-        "phpunit/phpunit": "~4.5"
+        "phpunit/phpunit": "~5.0",
+        "halleck45/phpmetrics": "^1.3"
     }
 }
