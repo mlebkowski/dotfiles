@@ -5,6 +5,7 @@ ln	misc/screenrc
 ln	misc/ascii.io		.ascii.io/config
 ln	misc/composer/*		.composer/
 ln	misc/ftcurlish.json
+ln	misc/nanorc
 
 # fish
 ln	fish/config.fish	.config/fish/

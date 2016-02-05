@@ -24,7 +24,7 @@ while read line; do
 	esac
 
 	prefix=""
-	if [ ! -O "$dest" ]; then
+	if [ ! -O "$(dirname "$dest")" ] || [ -f "$dest" -a ! -O "$dest" ]; then
 		prefix="sudo"
 	fi
 
