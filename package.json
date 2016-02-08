@@ -1,17 +1,17 @@
 {
   "private": true,
   "dependencies": {
+    "bower": "*",
     "compass": "~0.1.1",
-    "yamljs": "^0.2.0",
-    "less": "~2.2",
-    "redsmin": "~1.1.0",
-    "gulp": "*",
-    "uglify-js": "*",
-    "uglifycss": "*",
     "grunt-cli": "~0.1",
     "grunt-contrib-sass": "*",
-    "bower": "*",
+    "gulp": "*",
+    "less": "~2.2",
     "nassau-https-proxy": "*",
-    "ungit": "*"
+    "redsmin": "~1.1.0",
+    "uglify-js": "*",
+    "uglifycss": "*",
+    "ungit": "*",
+    "yamljs": "^0.2.0"
   }
 }
