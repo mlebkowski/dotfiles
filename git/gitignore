@@ -3,3 +3,11 @@
 .DS_Store
 vendor
 parameters.yml
+.env
+
+.idea/.name
+.idea/shelf
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/deployment.xml
+.idea/dataSources.*
