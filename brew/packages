@@ -5,3 +5,5 @@ mysql
 node
 git-flow
 pv
+jq
+httpie
