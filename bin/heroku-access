@@ -1,0 +1,54 @@
+#!/bin/bash
+
+set -euo pipefail
+
+if ! type heroku >/dev/null; then
+	exit 127;
+fi
+
+REFERENCE_APP=${REFERENCE_APP:-}
+
+areyousure() {
+	declare msg=$1
+	
+	if [[ ! -t 1 ]]; then
+		return 0;
+	fi
+	
+	read -p "$msg [Y/n]? " -n 1 -r response
+	if [[ "$response" =~ ^\s?$ ]]; then
+		return 0;
+	fi
+	
+	echo
+	
+	[[ "$response" =~ ^(y|Y)$ ]]
+}
+
+main() {
+	declare app=${1:-} reference=${2:$REFERENCE_APP}
+	
+	app=$(if [[ -n "$app" ]]; then echo "--app" $app; fi)
+	
+	if [[ -z "$reference" ]]; then
+		echo 'You need to specify REFERENCE APP using second parameter or $REFERENCE_APP env' >&2
+		return 1
+	fi
+
+	local expected=$(heroku access --app $reference | awk '{ print $1 }' )
+	local actual=$(heroku access $app | awk '{ print $1 }')
+	
+	for email in $(echo "$expected" | grep -vF "$actual"); do
+		if areyousure "Add $email"; then
+			heroku access:add $app $email
+		fi
+	done
+	
+	for email in $(echo "$actual" | grep -vF "$expected"); do
+		if areyousure "Remove $email"; then
+			heroku access:remove $app $email
+		fi
+	done
+}
+
+main "$@"
