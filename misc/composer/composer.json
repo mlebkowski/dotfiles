@@ -4,5 +4,8 @@
         "psy/psysh": "@stable",
         "phpunit/phpunit": "~5.0",
         "halleck45/phpmetrics": "^1.3"
+    },
+    "config": {
+        "cache-files-maxsize": "10GiB"
     }
 }
