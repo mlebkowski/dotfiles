@@ -12,3 +12,5 @@ _autoenvfish # check for starting directory
 for name in conf.d/*.fish;
 	. $name
 end
+
+test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
