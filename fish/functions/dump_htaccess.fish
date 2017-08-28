@@ -10,7 +10,7 @@ function dump_htaccess
 
 	set variables (ls -1 "$AUTOENVFISH")
 	for env in $variables;
-		echo "SetEnv $env "$$env >> "$htaccess_path"
+		echo "SetEnvIf Host ^ $env="$$env >> "$htaccess_path"
 	end
 
 end
