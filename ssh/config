@@ -2,36 +2,54 @@ Host *
 	ServerAliveInterval 120
 	TCPKeepAlive no
 
-Host *.foser.net
-	User zl
-	ForwardAgent yes
-	IdentityFile ~/.ssh/znany_rsa
-	ControlMaster auto
-	ControlPath ~/.ssh/ssh_mux_%h_%p_%r
-	ControlPersist yes
+Host *.in.hostersi.pl
+	User root
+	StrictHostKeyChecking no
+
+Host *.nutricia-platform.narzekasz.pl
+	User root
+	StrictHostKeyChecking no
+
+Host *.bebiklub.narzekasz.pl
+	User root
+	StrictHostKeyChecking no
+
+Host *.bebiprogram.narzekasz.pl
+	User root
+	StrictHostKeyChecking no
+
+Host *.bobovita.narzekasz.pl
+	User root
+	StrictHostKeyChecking no
 
 Host narzekasz.pl
 	User puck
 	ForwardAgent yes
+
+
+Host pale-blue-dot.szg.io
+    User maciej.lebkowski
+
+Host kitematic.dckr
+	# ssh -o UserKnownHostsFile=/dev/null -o LogLevel=quiet -o StrictHostKeyChecking=no 
+	IdentityFile ~/.docker/machine/machines/dev/id_rsa
+	User docker
+#	Hostname 192.168.99.100
+
+Host gitlab.arsthanea.com
+	User git
+	Port 10032
 
 Host nassau
 	User puck
 	Hostname nassau.one.pl
 	ForwardAgent yes
 
-Host bob
-	User mlebkowski
-	Hostname bob.golden
-	ForwardAgent yes
-
 Host multimedia-energia.pl
 	User energia
-	ProxyCommand ssh -q puck@nassau.one.pl nc multimedia-energia.pl 22
+	ProxyCommand ssh -q narzekasz.pl nc multimedia-energia.pl 22
 
-Host z??.foser.net
-	User zl
-	IdentityFile ~/.ssh/zl_rsa
-	SendEnv ZL_EMAIL
+Host 127.0.0.1
 	ForwardAgent yes
 
 Host vagrant
@@ -41,18 +59,6 @@ Host vagrant
 	IdentityFile ~/.vagrant.d/insecure_private_key
 	Compression no
 	Ciphers arcfour
-
-Host fernet
-	Hostname fernet.foser.net
-	User zl
-	IdentityFile ~/.ssh/zl_rsa
-	SendEnv ZL_EMAIL
-	ForwardAgent yes
-
-Host advocat
-	Hostname advocat.golden
-	User zl
-	IdentityFile ~/.ssh/znany_rsa
 
 Host github.com
 	User git
