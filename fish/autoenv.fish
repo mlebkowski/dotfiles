@@ -58,7 +58,10 @@ function _source_envfish --on-variable AUTOENVFISH
 	if [ -d "$AUTOENVFISH" ]
 		set -l variables (ls -1 $AUTOENVFISH)
 		if [ (count $variables) -gt 0 ]
-			echo "loading $AUTOENVFISH ($variables)"
+            if status --is-interactive;
+		    	echo "loading $AUTOENVFISH ($variables)" >&2
+            end
+
 			for env in $variables;
 				if begin not contains $env $AUTOENVFISH_RESTORE; and set -q $env; end;
 					set -g AUTOENVFISH_RESTORE $AUTOENVFISH_RESTORE $env $$env
@@ -70,7 +73,10 @@ function _source_envfish --on-variable AUTOENVFISH
 			end
 		end
 	else if [ -f "$AUTOENVFISH" ]
-		echo "loading $AUTOENVFISH"
+        if status --is-interactive
+    		echo "loading $AUTOENVFISH" >&2
+        end
+
 		. $AUTOENVFISH
 	end
 end
