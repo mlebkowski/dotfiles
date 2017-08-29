@@ -1,0 +1,38 @@
+#!/bin/bash
+
+set -euo pipefail
+
+parse_dsn() {
+    declare dsn=$1 part=$2
+    
+    php -r 'echo parse_url($_SERVER["argv"][1], constant("PHP_URL_" . strtoupper($_SERVER["argv"][2])));' -- "$dsn" $part
+}
+
+main() {
+    declare name=${1:-$(basename $(pwd) ".dev")}
+	name=${name//-/_}
+    name=${name//./_}_heroku
+    
+    local url=$(heroku config|grep mysql | awk '{print $2}')
+    if [ $? -gt 0 ] || [ -z "$url" ]; then
+        echo "Cannot get database URL" >&2
+        return 255
+    fi
+    
+    local host=$(parse_dsn "$url" host) 
+    local port=$(parse_dsn "$url" port) 
+    local database=$(parse_dsn "$url" path)
+    local user=$(parse_dsn "$url" user)
+    local password=$(parse_dsn "$url" pass)
+    
+    (
+        echo "DROP DATABASE IF EXISTS $name;";
+        echo "CREATE DATABASE $name;";
+		echo "USE $name;"
+        mysqldump --user=$user --password=$password --host=$host --port=${port:-3306} --no-create-db -- "${database##/}" 
+    ) | mysql 
+    
+    return 0
+}
+
+main "$@"
