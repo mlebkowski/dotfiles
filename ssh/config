@@ -9,18 +9,22 @@ Host *.in.hostersi.pl
 Host *.nutricia-platform.narzekasz.pl
 	User root
 	StrictHostKeyChecking no
+    IdentityFile ~/.ssh/nutricia_rsa
 
 Host *.bebiklub.narzekasz.pl
 	User root
 	StrictHostKeyChecking no
+    IdentityFile ~/.ssh/nutricia_rsa
 
 Host *.bebiprogram.narzekasz.pl
 	User root
 	StrictHostKeyChecking no
+    IdentityFile ~/.ssh/nutricia_rsa
 
 Host *.bobovita.narzekasz.pl
 	User root
 	StrictHostKeyChecking no
+    IdentityFile ~/.ssh/nutricia_rsa
 
 Host narzekasz.pl
 	User puck
@@ -29,6 +33,7 @@ Host narzekasz.pl
 
 Host pale-blue-dot.szg.io
     User maciej.lebkowski
+    IdentityFile ~/.ssh/nutricia_rsa
 
 Host kitematic.dckr
 	# ssh -o UserKnownHostsFile=/dev/null -o LogLevel=quiet -o StrictHostKeyChecking=no 
