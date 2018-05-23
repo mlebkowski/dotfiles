@@ -1,0 +1,80 @@
+#!/bin/bash
+
+set -euo pipefail
+
+#? env-select 1.0
+
+##? Usage: env-select [options] [<argv>...]
+##?
+##?       --dist-file <dist_file>  File containing available configuration options [default: .env.dist]
+##?       --env-file <env_file>    Target file to store the env files into [default: .env]
+##?       --persist                Persist selection to env file
+##?       --quiet                  Try to be silent
+##?       --help                   Show help options.
+##?       --version                Print program version.
+
+help=$(grep "^##?" "$0" | cut -c 5-)
+version=$(grep "^#?"  "$0" | cut -c 4-)
+if command -v docopts >/dev/null; then
+    eval "$(docopts -h "$help" -V "$version" --options-first : "$@")"
+else 
+    env_file="${ENV_TARGET_FILE:-".env"}"
+    dist_file="${ENV_DIST_FILE:-".env.dist"}"
+    persist=""
+    quiet=""
+    argv="$@"
+fi
+
+
+if [[ ! -t 1 ]]; then
+    echo 'env-select needs to be run in interactive mode' >&2
+    exit 1;
+fi
+
+if [[ ! -f "$dist_file" ]]; then
+    echo "There is no ${dist_file} file to choose options from" >&2
+    exit 2;
+fi
+
+if [[ $(wc -l < "$dist_file") -eq 0 ]]; then
+    echo "There are no options to choose from in ${env_dist} file" >&2
+    exit 2
+fi
+
+if ! command -v percol >/dev/null; then
+    echo 'Please install percol utility';
+    exit 3;
+fi
+
+
+selected=$(percol "$dist_file" | sed 's/\s*#.*$//g')
+command="${argv[@]}"
+
+if [[ -z "$command" ]] || [[ "true" == "$persist" ]]; then
+    if [[ -z "${env_file}" ]]; then
+        echo "You need to specify env file to write to" >&2
+        exit 4;
+    fi
+
+    tempfile="$(mktemp "$env_file.XXX")"
+
+    if [[ -f "$env_file" ]]; then
+        cat "$env_file" > "$tempfile"
+
+        for name in "$(echo "$selected" | sed 's/=.*$//')"; do
+            sed -i.bak "/^${name}=/d" "$tempfile"
+            rm -f "$tempfile.bak" 
+        done
+    fi
+
+    if [[ "false" == "$quiet" ]]; then
+        echo "Saving selection to $env_file" >&2
+    fi
+
+    echo "$selected" >> "$tempfile"
+    mv "$tempfile" "$env_file"
+fi
+
+if [[ -n "$command" ]]; then
+    env "$selected" "$command"
+fi
