@@ -48,9 +48,8 @@ fi
 
 
 selected=$(percol "$dist_file" | sed 's/\s*#.*$//g')
-command="${argv[@]}"
 
-if [[ -z "$command" ]] || [[ "true" == "$persist" ]]; then
+if [[ "${#argv}" -eq 0 ]] || [[ "true" == "$persist" ]]; then
     if [[ -z "${env_file}" ]]; then
         echo "You need to specify env file to write to" >&2
         exit 4;
@@ -75,6 +74,6 @@ if [[ -z "$command" ]] || [[ "true" == "$persist" ]]; then
     mv "$tempfile" "$env_file"
 fi
 
-if [[ -n "$command" ]]; then
-    env "$selected" "$command"
+if [[ "${#argv}" -gt 0 ]]; then
+    env "$selected" "${argv[@]}"
 fi
