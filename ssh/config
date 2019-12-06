@@ -2,34 +2,12 @@ Host *
 	ServerAliveInterval 120
 	TCPKeepAlive no
 
-Host *.in.hostersi.pl
-	User root
-	StrictHostKeyChecking no
-
-Host *.nutricia-platform.narzekasz.pl
-	User root
-	StrictHostKeyChecking no
-    IdentityFile ~/.ssh/nutricia_rsa
-
-Host *.bebiklub.narzekasz.pl
-	User root
-	StrictHostKeyChecking no
-    IdentityFile ~/.ssh/nutricia_rsa
-
-Host *.bebiprogram.narzekasz.pl
-	User root
-	StrictHostKeyChecking no
-    IdentityFile ~/.ssh/nutricia_rsa
-
-Host *.bobovita.narzekasz.pl
-	User root
-	StrictHostKeyChecking no
-    IdentityFile ~/.ssh/nutricia_rsa
+Host eth.manuae
+    User mlebkowski
 
 Host narzekasz.pl
 	User puck
 	ForwardAgent yes
-
 
 Host pale-blue-dot.szg.io
     User maciej.lebkowski
@@ -41,29 +19,13 @@ Host kitematic.dckr
 	User docker
 #	Hostname 192.168.99.100
 
-Host gitlab.arsthanea.com
-	User git
-	Port 10032
-
 Host nassau
 	User puck
 	Hostname nassau.one.pl
 	ForwardAgent yes
 
-Host multimedia-energia.pl
-	User energia
-	ProxyCommand ssh -q narzekasz.pl nc multimedia-energia.pl 22
-
 Host 127.0.0.1
 	ForwardAgent yes
-
-Host vagrant
-	User vagrant
-	Hostname 127.0.0.1
-	Port 2222
-	IdentityFile ~/.vagrant.d/insecure_private_key
-	Compression no
-	Ciphers arcfour
 
 Host github.com
 	User git
