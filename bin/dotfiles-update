@@ -56,7 +56,7 @@ done < <(grep -vE -e "^\s*#" -e "^\s*$" "$DOTFILES_PATH/install")
 	command -v brew >&- && brew install $(cat brew/packages) || echo "Skipping brew install because there is no brew present"
 	command -v npm >&- && npm install || echo "Skipping npm install because there is no npm present"
 	command -v gem >&- gem install --user-install $(cat gem) || echo "Skipping gem install because there is no gem present"
-	pip install -q -r requirements.txt --user --install-option="--install-scripts=$HOME/bin"
+	pip3 install (cat requirements.txt)
 )
 
 if [ -f "$HOME/bin/composer" ]; then
