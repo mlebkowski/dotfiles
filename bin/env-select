@@ -4,9 +4,9 @@ set -euo pipefail
 
 #? env-select 1.0
 
-##? Usage: env-select [options] [<argv>...]
+##? Usage: env-select [options] [--dist-file=<dist-file]... [<argv>...]
 ##?
-##?       --dist-file <dist_file>  File containing available configuration options [default: .env.dist]
+##?       --dist-file <dist_file>  File containing available configuration options
 ##?       --env-file <env_file>    Target file to store the env files into [default: .env]
 ##?       --persist                Persist selection to env file
 ##?       --quiet                  Try to be silent
@@ -19,25 +19,23 @@ if command -v docopts >/dev/null; then
     eval "$(docopts -h "$help" -V "$version" --options-first : "$@")"
 else 
     env_file="${ENV_TARGET_FILE:-".env"}"
-    dist_file="${ENV_DIST_FILE:-".env.dist"}"
+    dist_file=""
     persist=""
     quiet=""
     argv="$@"
 fi
 
+if [[ -z "${dist_file:-}" ]]; then
+    dist_file=(~/.config/env.dist "${ENV_DIST_FILE:-.env.dist}")
+fi
 
 if [[ ! -t 1 ]]; then
     echo 'env-select needs to be run in interactive mode' >&2
     exit 1;
 fi
 
-if [[ ! -f "$dist_file" ]]; then
-    echo "There is no ${dist_file} file to choose options from" >&2
-    exit 2;
-fi
-
-if [[ $(wc -l < "$dist_file") -eq 0 ]]; then
-    echo "There are no options to choose from in ${env_dist} file" >&2
+if [[ $(cat "${dist_file[@]}" 2>/dev/null | wc -l) -eq 0 ]]; then
+    echo "There are no options to choose from in ${dist_file[@]} files" >&2
     exit 2
 fi
 
@@ -47,7 +45,7 @@ if ! command -v percol >/dev/null; then
 fi
 
 
-selected=$(percol "$dist_file" | sed 's/\s*#.*$//g')
+selected=$( ( cat "${dist_file[@]}" 2>/dev/null ||: ) | percol | sed 's/\s*#.*$//g')
 
 if [[ "${#argv}" -eq 0 ]] || [[ "true" == "$persist" ]]; then
     if [[ -z "${env_file}" ]]; then
