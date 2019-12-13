@@ -54,7 +54,7 @@ done < <(grep -vE -e "^\s*#" -e "^\s*$" "$DOTFILES_PATH/install")
 (
 	cd "$DOTFILES_PATH"
 	command -v brew >&- && brew install $(cat brew/packages) || echo "Skipping brew install because there is no brew present"
-	pip3 install (cat requirements.txt)
+	pip3 install $(cat requirements.txt)
 )
 
 if [ -f "$HOME/bin/composer" ]; then

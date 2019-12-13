@@ -27,4 +27,6 @@ ln	php/*			%php.d%
 
 def	com.apple.Dock showhidden -bool true
 def	ApplePressAndHoldEnabled -bool false
-
+def -g InitialKeyRepeat -int 15
+def -g KeyRepeat -int 2
+def -g NSAllowContinuousSpellChecking -bool false

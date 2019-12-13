@@ -6,11 +6,12 @@ awscli
 envchain
 fish
 gist
-heroku
 mtr
-mutagen
 n
 percol
 rtv
 wget
 yq
+mysql-client
+mutagen-io/mutagen/mutagen
+heroku/brew/heroku
