@@ -1,5 +1,5 @@
+# Defined in /var/folders/8n/4fbjz7dj23jc3g_9y274kk6h0000gn/T//fish.FaOZvN/fish_prompt.fish @ line 2
 function fish_prompt --description 'Write out the prompt'
-	
 	set -l last_status $status
 
 	# Just calculate these once, to save a few cycles when displaying the prompt
@@ -73,5 +73,10 @@ function fish_prompt --description 'Write out the prompt'
 		set -g __fish_prompt_host (set_color $fish_color_host)
 	end
 
-	echo -n -s "$__fish_prompt_user" "$USER" "$__fish_prompt_normal" @ "$__fish_prompt_host" "$__fish_prompt_hostname" "$__fish_prompt_normal" ' ' "$__fish_prompt_cwd" (prompt_pwd) (__fish_git_prompt) "$__fish_prompt_normal" "$prompt_status" "$delim" ' '
+    set -l mutagen_status 
+    if not is-mutagen-working; 
+        set mutagen_status " 👻"
+    end
+
+	echo -n -s "$__fish_prompt_user" "$USER" "$__fish_prompt_normal" @ "$__fish_prompt_host" "$__fish_prompt_hostname" "$__fish_prompt_normal" ' ' "$__fish_prompt_cwd" (prompt_pwd) (__fish_git_prompt) "$__fish_prompt_normal" "$mutagen_status" "$prompt_status" "$delim" ' '
 end
