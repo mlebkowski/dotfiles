@@ -1,5 +1,7 @@
 # New Mac
 
+curl -s 'https://api.macapps.link/en/chrome-evernote-skitch-dropbox-superduper-sequelpro-docker-iterm-caffeine-spotify-slack-discord' | sh
+
 - Google Chrome
 - Bear
 - Caffeine
