@@ -1,16 +1,21 @@
+# Defined in /var/folders/8n/4fbjz7dj23jc3g_9y274kk6h0000gn/T//fish.VBCI41/node.fish @ line 2
 function node
-	
 	function __node_get_engine
 
 	    set -l dir (pwd)
-	
-	    while begin [ ! -z "$dir" ]; and [ "/" != "$dir" ]; end
+
+	    while [ ! -z "$dir" ]
+
     	    if [ -f "$dir/package.json" ];
         	    echo (jq -r '.engines.node?' < "$dir/package.json")
 				return;
 	        end
 
 			set -l dir (dirname $dir)
+
+			if [ "/" = "$dir" ]
+			    return;
+			end
     	end
 	end
 
