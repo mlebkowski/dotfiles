@@ -25,6 +25,7 @@ main() {
     local user=$(parse_dsn "$url" user)
     local password=$(parse_dsn "$url" pass)
     
+    echo "Restoring into database $name"
     (
         echo "DROP DATABASE IF EXISTS $name;";
         echo "CREATE DATABASE $name;";
