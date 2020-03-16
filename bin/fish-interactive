@@ -1,0 +1,4 @@
+#!/bin/bash --login
+
+export LC_CTYPE=UTF-8 
+fish -li
