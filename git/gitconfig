@@ -9,20 +9,23 @@
 	excludesfile = ~/.gitignore
 	autocrlf = input
 	editor = nano
+	pager = diff-so-fancy | less --tabs=4 -RFX
 [gist]
 	private = true
 
 [color]
-    ui = auto
+	ui = true
 [color "branch"]
     current = yellow reverse
     local = yellow
     remote = green
 [color "diff"]
-    meta = yellow bold
-    frag = magenta bold
-    old = red bold
-    new = green bold
+	meta = 11
+	frag = magenta bold
+	old = red bold
+	new = green bold
+	commit = yellow bold
+	whitespace = red reverse
 [color "status"]
     added = yellow
     changed = green
@@ -100,3 +103,8 @@
 [filter "phar"]
 	clean = "sed -e s,[.]phar/,.phar,g -e s,[.]phar,.phar/,g | perl -pe \"chomp if eof\" "
 	smudge = sed s,[.]phar/,.phar,g
+[color "diff-highlight"]
+	oldNormal = red bold
+	oldHighlight = red bold 52
+	newNormal = green bold
+	newHighlight = green bold 22
