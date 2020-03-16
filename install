@@ -30,3 +30,14 @@ def	ApplePressAndHoldEnabled -bool false
 def -g InitialKeyRepeat -int 15
 def -g KeyRepeat -int 2
 def -g NSAllowContinuousSpellChecking -bool false
+def NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
+
+def com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
+def NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+
+def NSGlobalDomain com.apple.swipescrolldirection -bool false
+def NSGlobalDomain AppleKeyboardUIMode -int 3
+
+def com.apple.frameworks.diskimages skip-verify -bool true
+def com.apple.frameworks.diskimages skip-verify-locked -bool true
+def com.apple.frameworks.diskimages skip-verify-remote -bool true
