@@ -1,4 +1,4 @@
-# Defined in /var/folders/8n/4fbjz7dj23jc3g_9y274kk6h0000gn/T//fish.spA8bD/is-mutagen-working.fish @ line 2
+# Defined in /var/folders/8n/4fbjz7dj23jc3g_9y274kk6h0000gn/T//fish.YW3msR/is-mutagen-working.fish @ line 2
 function is-mutagen-working
 	set directory (pwd)
 
@@ -14,7 +14,7 @@ function is-mutagen-working
         return 0
     end
 
-	set sessionId (mutagen sync list | grep "URL: $directory" -B 3 | head -1 | cut -d" " -f2)
+	set sessionId (mutagen sync list | grep "URL: $directory" -B 6 | grep "Identifier" | cut -d" " -f2)
 
     if [ -z "$sessionId" ];
         return 0
