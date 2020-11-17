@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+if ! command -v envchain >/dev/null; then
+    echo 'You need to `brew install envchain` first' >&2
+    exit 1
+fi
+
+find_namespace() {
+    declare dir="$1"
+
+    while [ ! -e "$dir/docker-compose.yml" ] && [ ! -e "$dir/.envchain" ] && [ "/" != "$dir" ]; do
+        dir="$(dirname "$dir")"
+    done
+
+    if [ -f "$dir/.envchain" ]; then
+        cat "$dir/.envchain"
+        return 0;
+    fi
+
+    local namespace="$(basename "$dir")"
+    echo "${namespace// /-}"
+}
+
+main() {
+    declare cmd="$1"
+
+    local namespace="$(find_namespace "$PWD")"
+
+    if [ "/" == "$namespace" ]; then
+        echo 'You need to run this script from a project directory' >&2
+        echo 'I couldn’t find neither `docker-compose.yml` nor `.envchain` file anywhere in this path' >&2
+        return 1;
+    fi
+
+    if [ "set" == "$cmd" ]; then
+        shift;
+        envchain --set "$namespace" "$@"
+
+        return $?;
+    fi
+
+    envchain "$namespace" "$@"
+}
+main "$@"
