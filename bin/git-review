@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+main() {
+    local base="${1:-origin/master}"
+
+    local ancestor=$(git merge-base $(git rev-parse "$base") HEAD)
+    local current=$(git rev-parse HEAD)
+
+    if [[ "$current" == "$ancestor" ]]; then
+        current=$(git rev-parse '@{upstream}')
+    fi
+
+    printf "Resetting to the first common ancestor of %s and %s <%s>\n"\
+        $(tput setaf 2)HEAD$(tput setaf 7) \
+        $(tput setaf 2)$base$(tput setaf 7) \
+        $(tput setaf 3)$(git rev-parse --short $ancestor)$(tput setaf 7)
+
+    git reset --soft $(git merge-base $(git rev-parse "$base") HEAD)
+    printf 'Press enter when done to return to %s <%s>\n' \
+        $(\tput setaf 2)$(git rev-parse --abbrev-ref HEAD)$(tput setaf 7) \
+        $(tput setaf 3)$(git rev-parse --short $current)$(tput setaf 7) 
+
+    git status
+    read 
+    echo -en "\033[1A"
+
+    git reset --soft $current
+}
+
+main "$@"
+
