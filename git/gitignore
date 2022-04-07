@@ -4,6 +4,8 @@
 vendor
 .env
 
+docker-compose.local.yml
+
 .idea/.name
 .idea/shelf
 .idea/workspace.xml
