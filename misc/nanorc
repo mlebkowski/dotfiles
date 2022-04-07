@@ -1,14 +1,16 @@
-set tabsize 4
+set mouse
+set tabsize 2
 set tabstospaces 
 
 set nowrap
 set regexp
-set smooth
+#set smooth
 
 
 include ~/.dotfiles/nano/Dockerfile.nanorc
 include ~/.dotfiles/nano/awk.nanorc
 include ~/.dotfiles/nano/css.nanorc
+include ~/.dotfiles/nano/fish.nanorc
 include ~/.dotfiles/nano/html.nanorc
 include ~/.dotfiles/nano/makefile.nanorc
 include ~/.dotfiles/nano/man.nanorc
