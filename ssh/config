@@ -2,6 +2,10 @@ Host *
 	ServerAliveInterval 120
 	TCPKeepAlive no
 
+Host motunui.narzekasz.pl
+    controlmaster auto
+    controlpath /tmp/ssh-%r@%h:%p
+
 Host eth.manuae
     User mlebkowski
 

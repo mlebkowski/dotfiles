@@ -1,4 +1,3 @@
-# Defined in /var/folders/8n/4fbjz7dj23jc3g_9y274kk6h0000gn/T//fish.DgeZV4/mutagen-status.fish @ line 2
 function mutagen-status
   if [ -z "$MUTAGEN_IDENTIFIER" ]; 
     return 0;
