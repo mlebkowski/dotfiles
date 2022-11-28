@@ -1,0 +1,51 @@
+sync:
+  defaults:
+    mode: two-way-resolved
+    symlink:
+      mode: portable
+    ignore:
+      vcs: true
+      paths:
+        # JetBrains
+        - .idea
+
+        # MacOS
+        # General
+        - .DS_Store
+        - .AppleDouble
+        - .LSOverride
+
+        # Thumbnails
+        - ._*
+
+        # Files that might appear in the root of a volume
+        - .DocumentRevisions-V100
+        - .fseventsd
+        - .Spotlight-V100
+        - .TemporaryItems
+        - .Trashes
+        - .VolumeIcon.icns
+        - .com.apple.timemachine.donotpresent
+        
+
+        # Directories potentially created on remote AFP share
+        - .AppleDB
+        - .AppleDesktop
+        - Network Trash Folder
+        - Temporary Items
+        - .apdisk
+
+        # Vim files
+        - '*~'
+        - '*.sw[a-p]'
+
+        # Symfony files
+        - /var/cache/dev/profiler/
+        - var/cache/test
+        - .php_cs.cache
+        - cache/dev/*/profiler/
+        - app/logs
+        - var/log/
+        - var/phpstan
+        - var/logs/dev.log
+        - .phpunit.result.cache
