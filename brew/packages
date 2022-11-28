@@ -14,4 +14,8 @@ wget
 yq
 mysql-client
 mutagen-io/mutagen/mutagen
-heroku/brew/heroku
+nano
+docker
+docker-compose
+git-crypt
+gpg
