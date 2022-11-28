@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+CONFIG_PATH=~/.szg/run-in-docker
+
+get_service() {
+  declare command="$1"
+  local dirname="$(pwd)"
+  local cache_key="${CONFIG_PATH}/$dirname/$command"
+
+  if [ -f "$cache_key" ]; then
+    cat "$cache_key"
+    return
+  fi
+
+  local service=$(docker compose config --services | percol --auto-match --prompt "Please select a service to run $command > ")
+  mkdir -p "$(dirname "$cache_key")"
+  echo $service | tee $cache_key
+}
+
+main() {
+  local command="$1"
+
+  local service="$(get_service "$command")"
+
+  docker compose exec $service "$@"
+}
+
+main "$@"
