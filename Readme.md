@@ -1,42 +1,41 @@
 # New Mac
 
-curl -s 'https://api.macapps.link/en/chrome-evernote-skitch-dropbox-superduper-sequelpro-docker-iterm-caffeine-spotify-slack-discord' | sh
+Turn on dock hiding
 
-- Google Chrome
 - Bear
-- Caffeine
+- Slack
+- Dropbox
+- SequelAce
+- Spotify
+- Around
+- CoreTunnel
 - Jetbrains toolbox
 - Homebrew
-- Dropbox
 - iTerm2
     - Import settings from dropbox
-- Evernote
-- dotfiles
-- Docker Desktop
-    - Change ram
 - Captain
 - Byword
 - Things
 - Paw
-- Discord
-- Slack
-- Spotify
 - LaunchControl (from dropbox)
 - Skitch
 - Reeder
 - mac2imgur
-- SequelPro
-    - Move login items to separate keychain
-    - Export favourites
 - Patterns
 - Recordit
+- Authy
 - CodeRunner 
     - coderunner settings
-- docker.szg.local
+
+/opt/homebrew/bin/brew install $(cat ~/.dotfiles/brew/packages)
 
 - mutagen create (pwd) docker://(basename (pwd))_mutagen_1/app
 
-+ Create do not disturb profile
-+ Create Dev drive
-+ Enable touch click and disable natural scroll direction
+# https://github.com/docker/compose/issues/8630#issuecomment-1169537632
+```
+mkdir -p ~/.docker/cli-plugins
+ln -sfn /opt/homebrew/opt/docker-compose/bin/docker-compose ~/.docker/cli-plugins/docker-compose
+```
 
+run-in-docker
+Disable Spotlight indexing
