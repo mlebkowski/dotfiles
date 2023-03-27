@@ -12,6 +12,8 @@ Host eth.manuae
 Host narzekasz.pl
 	User puck
 	ForwardAgent yes
+  PubkeyAcceptedKeyTypes +ssh-rsa
+
 
 Host pale-blue-dot.szg.io
     User maciej.lebkowski
