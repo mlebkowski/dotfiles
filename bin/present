@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+last_readme_section_line() {
+  grep -n '^##' Readme.md | cut -d: -f1 | tail -1
+}
+
+show_readme_section() {
+  local line=$(last_readme_section_line)
+
+  sed -n $line',$p' Readme.md
+}
+
+main() {
+  while read sha; do
+    git checkout "$sha"
+    git reset --soft HEAD~ ||:
+    (
+      git show --quiet "$sha"
+      echo
+      show_readme_section
+    ) | less
+    git reset --soft "$sha"
+  done < <(git rev-list HEAD --reverse)
+
+  git checkout main
+}
+
+main "$@"

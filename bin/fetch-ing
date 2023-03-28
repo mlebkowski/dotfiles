@@ -1,0 +1,74 @@
+#!/usr/bin/env bash
+
+ensure_har_present() {
+  local creator="$(pbpaste | jq -r .log.creator.name)"
+
+  if [ "WebInspector" != "$creator" ]; then
+    echo "Use RMB » Copy » Copy all as HAR on any ING request before running this script" >&2
+    exit 1;
+  fi
+}
+
+extract_cookie() {
+  pbpaste | jq -r '.log.entries[0].request.headers | .[] | select(.name =="Cookie") | .value'
+}
+
+extract_token() {
+  pbpaste | jq -r '.log.entries[0].request.postData.text' | jq -r '.token'
+}
+
+prepare_directory() {
+  declare dir="$1"
+  rm "$dir"
+  mkdir "$dir"
+}
+
+create_payload() {
+  declare token="$1" page="$2"
+  jq -n --arg TOKEN "$token" --arg PAGE "$page" --arg RACH "86105000441000002471636338" \
+    '{ token: $TOKEN, trace: "pnht,845169;", data: {rach: $RACH, pageSize: 10, nextPage: $PAGE}, locale: "PL"}'
+}
+
+fetch_schedule() {
+  declare dir="$1" cookie="$2" token="$3"
+
+  for i in $(seq 0 10 680); do
+    echo "Feching Page $i"
+    local payload="$(create_payload "$token" "$i")"
+    curl -s 'https://login.ingbank.pl/mojeing/rest/rengetloanschedule' \
+      -H 'Connection: keep-alive' \
+      -H 'sec-ch-ua: " Not A;Brand";v="99", "Chromium";v="96", "Google Chrome";v="96"' \
+      -H 'DNT: 1' \
+      -H 'sec-ch-ua-mobile: ?0' \
+      -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.55 Safari/537.36' \
+      -H 'Content-Type: application/json' \
+      -H 'Accept: */*' \
+      -H 'X-Requested-With: XMLHttpRequest' \
+      -H 'sec-ch-ua-platform: "macOS"' \
+      -H 'Origin: https://login.ingbank.pl' \
+      -H 'Sec-Fetch-Site: same-origin' \
+      -H 'Sec-Fetch-Mode: cors' \
+      -H 'Sec-Fetch-Dest: empty' \
+      -H 'Referer: https://login.ingbank.pl/mojeing/app/' \
+      -H 'Accept-Language: en-US,en;q=0.9,pl;q=0.8' \
+      -H "X-Wolf-Protection: $token" \
+      -H "Cookie: $cookie" \
+      --data-raw "$payload" \
+      --compressed > "$dir"/ing-$i.json
+  done
+
+
+  echo "$dir"
+  cat "$dir"/ing-*.json | jq '.data.entries | .[] | select(.typepay == "P") | .instint ' | tr . ,
+}
+
+main() {
+  ensure_har_present
+  local cookie=$(extract_cookie)
+  local token=$(extract_token)
+  local dir="$(mktemp)"
+  prepare_directory "$dir"
+  fetch_schedule "$dir" "$cookie" "$token"
+}
+
+main "$@"
