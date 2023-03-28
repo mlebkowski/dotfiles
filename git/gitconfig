@@ -108,3 +108,6 @@
 	oldHighlight = red bold 52
 	newNormal = green bold
 	newHighlight = green bold 22
+
+[pretty]
+	present = Date: %ad%n%n%Cgreen%x23 %s%Creset%n%n%b
