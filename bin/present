@@ -12,17 +12,24 @@ show_readme_section() {
 
 main() {
   while read sha; do
-    git checkout "$sha"
-    git reset --soft HEAD~ ||:
+    git checkout "$sha" 2>/dev/null
+    git reset --soft HEAD~ 2>/dev/null ||:
     (
-      git show --quiet "$sha"
+      echo -n "Date: "
+      git show -s --format="%ad" "$sha"
       echo
       show_readme_section
-    ) | less
+    ) | less -c
     git reset --soft "$sha"
+
+    while [[ $(git status --porcelain) ]]; do
+      git status --porcelain
+      sleep 5
+    done
   done < <(git rev-list HEAD --reverse)
 
-  git checkout main
+  git checkout main 2>/dev/null >/dev/null
+  git --no-pager log --oneline --reverse
 }
 
 main "$@"
