@@ -14,24 +14,8 @@ Host narzekasz.pl
 	ForwardAgent yes
   PubkeyAcceptedKeyTypes +ssh-rsa
 
-
-Host pale-blue-dot.szg.io
-    User maciej.lebkowski
-    IdentityFile ~/.ssh/nutricia_rsa
-
-Host kitematic.dckr
-	# ssh -o UserKnownHostsFile=/dev/null -o LogLevel=quiet -o StrictHostKeyChecking=no 
-	IdentityFile ~/.docker/machine/machines/dev/id_rsa
-	User docker
-#	Hostname 192.168.99.100
-
-Host nassau
-	User puck
-	Hostname nassau.one.pl
-	ForwardAgent yes
-
-Host 127.0.0.1
-	ForwardAgent yes
+Host lebkowski.name
+  User root
 
 Host github.com
 	User git
