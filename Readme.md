@@ -8,7 +8,6 @@ Turn on dock hiding
 - SequelAce
 - Spotify
 - Around
-- CoreTunnel
 - Jetbrains toolbox
 - Homebrew
 - iTerm2
@@ -18,16 +17,16 @@ Turn on dock hiding
 - Things
 - Paw
 - LaunchControl (from dropbox)
-- Skitch
 - Reeder
-- mac2imgur
 - Patterns
-- Recordit
 - Authy
 - CodeRunner 
     - coderunner settings
 
-/opt/homebrew/bin/brew install $(cat ~/.dotfiles/brew/packages)
+/bin/bash -c "$(curl -fsSL 
+https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+/opt/homebrew/bin/brew 
+install $(cat ~/.dotfiles/brew/packages)
 
 - mutagen create (pwd) docker://(basename (pwd))_mutagen_1/app
 
