@@ -1,0 +1,1 @@
+php -dzend_extension=xdebug.so -dxdebug.mode=debug -dxdebug.start_with_request=on "$@"

@@ -1,0 +1,2 @@
+mkdir -p .xdebug-profiler
+php -dzend_extension=xdebug.so -dxdebug.mode=profile -dxdebug.output_dir=.xdebug-profiler/ "$@"
