@@ -15,7 +15,7 @@ Host narzekasz.pl
   PubkeyAcceptedKeyTypes +ssh-rsa
 
 Host lebkowski.name
-  User root
+  User puck
 
 Host github.com
 	User git
