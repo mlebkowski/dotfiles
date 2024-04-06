@@ -28,6 +28,8 @@ main () {
 	ln -fs $(pwd)/ssh/authorized_keys ~/.ssh/authorized_keys
 
 	link_folder fish ~/.config/fish
+
+	git remote set-url origin git@github.com:mlebkowski/dotfiles.git
 }
 
 main "$@"
