@@ -69,7 +69,7 @@ function _source_envfish --on-variable AUTOENVFISH
 					set -g AUTOENVFISH_ERASE $AUTOENVFISH_ERASE $env
 				end
 
-				set -gx $env (cat $AUTOENVFISH/$env)
+				set -gx $env "$(cat $AUTOENVFISH/$env)"
 			end
 		end
 	else if [ -f "$AUTOENVFISH" ]
