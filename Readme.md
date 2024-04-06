@@ -1,40 +1,49 @@
 # New Mac
 
-Turn on dock hiding
+## Applications
 
-- Bear
-- Slack
-- Dropbox
-- SequelAce
-- Spotify
-- Around
-- Jetbrains toolbox
-- Homebrew
-- iTerm2
-    - Import settings from dropbox
-- Captain
-- Byword
-- Things
-- Paw
-- LaunchControl (from dropbox)
-- Reeder
-- Patterns
-- Authy
-- CodeRunner 
-    - coderunner settings
-
-/bin/bash -c "$(curl -fsSL 
-https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-/opt/homebrew/bin/brew 
-install $(cat ~/.dotfiles/brew/packages)
-
-- mutagen create (pwd) docker://(basename (pwd))_mutagen_1/app
-
-# https://github.com/docker/compose/issues/8630#issuecomment-1169537632
-```
-mkdir -p ~/.docker/cli-plugins
-ln -sfn /opt/homebrew/opt/docker-compose/bin/docker-compose ~/.docker/cli-plugins/docker-compose
+```sh
+# ⛄
+curl -s 'https://api.macapps.link/en/chrome-dropbox-superduper-github-docker-iterm-1password-spotify-slack-discord' | sh
 ```
 
-run-in-docker
-Disable Spotlight indexing
+### Download
+
+- ⛄ [Dropbox](https://www.dropbox.com/downloading)
+- [Jetbrains toolbox](https://www.jetbrains.com/toolbox-app/)
+- ⛄ [Spotify](https://www.spotify.com/de-en/download/mac/)
+- ⛄ [iTerm2](https://iterm2.com/downloads.html)
+- [Around](https://www.around.co/)
+- [Captain](https://getcaptain.co/)
+- [Reeder](https://apps.apple.com/pl/app/reeder-5/id1529448980?mt=12)
+- [CodeRunner](https://coderunnerapp.com/)
+
+### App store
+
+- [Bear](https://apps.apple.com/pl/app/bear-markdown-notes/id1091189122?mt=12)
+- ⛄ [Slack](https://apps.apple.com/pl/app/slack-for-desktop/id803453959?mt=12)
+- [Core Tunnel](https://apps.apple.com/pl/app/core-tunnel/id1354318707?mt=12)
+- [SequelAce](https://apps.apple.com/pl/app/sequel-ace/id1518036000?mt=12)
+- [Things](https://apps.apple.com/pl/app/things-3/id904280696?mt=12)
+- [Byword](https://apps.apple.com/pl/app/byword/id420212497?mt=12)
+- [Patterns](https://apps.apple.com/pl/app/patterns-the-regex-app/id429449079?mt=12)
+
+### Setapp
+
+[Download Setapp](https://setapp.com/download)
+
+ - [CleanShot X](setapp://launch/321)
+ - [Paste](setapp://launch/98)
+ - [Wifi Explorer](setapp://launch/74)
+ - [Proxyman](setapp://launch/346)
+ - [TablePlus](setappp://launch/297)
+ - [PixelSnap](setapp://launch/358)
+ - [Soulver](setapp://launch/551)
+ - [RapidApi (paw)](setapp://launch/94)
+
+### Brew
+
+```sh
+brew-install-packages
+```
+

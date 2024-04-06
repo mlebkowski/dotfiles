@@ -1,5 +1,7 @@
 pv
 jq
+jnv
+fx
 httpie
 asciinema
 awscli
@@ -9,7 +11,6 @@ gist
 mtr
 n
 percol
-rtv
 wget
 yq
 mysql-client
@@ -19,3 +20,4 @@ docker
 docker-compose
 git-crypt
 gpg
+lazydocker
