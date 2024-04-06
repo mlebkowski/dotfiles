@@ -32,14 +32,14 @@ curl -s 'https://api.macapps.link/en/chrome-dropbox-superduper-github-docker-ite
 
 [Download Setapp](https://setapp.com/download)
 
- - [CleanShot X](setapp://launch/321)
- - [Paste](setapp://launch/98)
- - [Wifi Explorer](setapp://launch/74)
- - [Proxyman](setapp://launch/346)
- - [TablePlus](setappp://launch/297)
- - [PixelSnap](setapp://launch/358)
- - [Soulver](setapp://launch/551)
- - [RapidApi (paw)](setapp://launch/94)
+ - [CleanShot X](setapp://launch/321) [↗️](https://setapp.com/apps/cleanshot)
+ - [Paste](setapp://launch/98) [↗️](https://setapp.com/apps/paste)
+ - [Wifi Explorer](setapp://launch/74) [↗️](https://setapp.com/apps/wifi-explorer)
+ - [Proxyman](setapp://launch/346) [↗️](https://setapp.com/apps/proxyman)
+ - [TablePlus](setappp://launch/297) [↗️](https://setapp.com/apps/tableplus)
+ - [PixelSnap](setapp://launch/358) [↗️](https://setapp.com/apps/pixelsnap)
+ - [Soulver](setapp://launch/551) [↗️](https://setapp.com/apps/soulver)
+ - [RapidApi (paw)](setapp://launch/94) [↗️](https://setapp.com/apps/rapidapi)
 
 ### Brew
 
