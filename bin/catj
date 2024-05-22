@@ -1,4 +1,5 @@
 #!/usr/bin/env jq -rf
+# https://news.ycombinator.com/item?id=20245913
 
 tostream
     | select(length > 1)
