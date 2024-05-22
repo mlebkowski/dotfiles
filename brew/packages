@@ -1,5 +1,7 @@
+gum
 pv
 jq
+jc
 jnv
 fx
 httpie
@@ -18,6 +20,5 @@ mutagen-io/mutagen/mutagen
 nano
 docker
 docker-compose
-git-crypt
 gpg
 lazydocker
