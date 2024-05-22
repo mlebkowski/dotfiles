@@ -1,21 +1,28 @@
+CanonicalizeHostname true
+
 Host *
 	ServerAliveInterval 120
 	TCPKeepAlive no
+	UseKeychain yes
+
+Include config.d/*.config
 
 Host motunui.narzekasz.pl
-    controlmaster auto
-    controlpath /tmp/ssh-%r@%h:%p
+	controlmaster auto
+	controlpath /tmp/ssh-%r@%h:%p
 
 Host eth.manuae
-    User mlebkowski
+	User mlebkowski
 
 Host narzekasz.pl
 	User puck
 	ForwardAgent yes
-  PubkeyAcceptedKeyTypes +ssh-rsa
+	PubkeyAcceptedKeyTypes +ssh-rsa
+	ControlMaster auto
+	ControlPath ~/.ssh/ssh_mux_%h_%p_%r
 
 Host lebkowski.name
-  User puck
+	User puck
 
 Host github.com
 	User git
@@ -23,5 +30,5 @@ Host github.com
 	IdentityFile ~/.ssh/github_rsa
 
 Host manuae
-	Hostname manuae.narzekasz.pl
 	User mlebkowski
+	HostName manuae.narzekasz.pl
