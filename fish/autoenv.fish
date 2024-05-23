@@ -19,7 +19,7 @@ end
 # Triggered upon change of $AUTOENVFISH_BUCKET, source it if the file exists
 function _source_envfish --on-variable AUTOENVFISH_BUCKET
     # fish bug: receiving erase from other shells :o
-    if [ $argv[2] = "ERASE" -a -n "$AUTOENVFISH_BUCKET" ];
+    if [ "$argv[2]" = "ERASE" -a -n "$AUTOENVFISH_BUCKET" ];
         return
     end
 
