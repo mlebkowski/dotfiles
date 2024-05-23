@@ -1,0 +1,307 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+CONFIG_PATH="${XDG_CONFIG_HOME:-${HOME}/.config}/nassau/env"
+CONFIG_PATH_DIR_CACHE="${CONFIG_PATH}/dirs"
+NASSAU_ENV_VAULT="${NASSAU_ENV_VAULT:-Environment}"
+NASSAU_ENV_ACCOUNT="${NASSAU_ENV_ACCOUNT:-my.1password.com}"
+NASSAU_ENV_ENVCHAIN_PREFIX=nassau_env
+
+# region filesystem
+find-up-the-tree() {
+  declare predicate="$1" name="$2" directory="${3:-$(pwd)}"
+  local current
+
+  current="$(realpath "$directory")"
+  while [ "$current" != / ]
+  do
+    if test "$predicate" "$current/$name"; then
+      echo "$current"
+    fi
+
+    current="$(dirname "$current")"
+  done
+}
+
+all-parent-directories() {
+  find-up-the-tree -d . "$1"
+}
+# endregion
+
+# region utilities
+has-command() {
+  # if it returns a file path, I guess
+  test -f "$(command -v "$1")"
+}
+
+op-item() {
+  op --account "$NASSAU_ENV_ACCOUNT" --vault "$NASSAU_ENV_VAULT" item "$@"
+}
+
+sort-by-most-specific() {
+  column -t \
+    | awk '{print length"\t"$0}' \
+    | sort -n \
+    | cut -f2-
+}
+
+is-multiline() {
+  test "$(echo -n "$1" | grep -c '^')" -gt 1
+}
+
+reverse() {
+  if has-command tac; then
+    tac
+    return $?
+  fi
+  tail -r
+}
+# endregion
+
+# region detecting env roots
+find-tree-matching-parent() {
+  declare dir="$1"
+  local patterns;
+  patterns="$(</dev/stdin)"
+
+  all-parent-directories "$dir" \
+    | grep --color=none -Fof <(echo "$patterns") \
+    | uniq \
+    || :
+}
+
+find-envchain-directories() {
+  declare directory="$1"
+
+  if ! has-command envchain; then
+    return
+  fi
+
+  find-tree-matching-parent "$directory" < <(envchain --list)
+}
+
+find-op-env-directories() {
+  declare directory="$1"
+
+  if [ ! -f "$CONFIG_PATH_DIR_CACHE" ]; then
+    return
+  fi
+
+  find-tree-matching-parent "$directory" < "$CONFIG_PATH_DIR_CACHE"
+}
+
+find-candidates-for-path() {
+  declare path="$1"
+  {
+    find-up-the-tree -d ".env" "$path" | sed 's/^/env /'
+    find-op-env-directories "$path" | sed 's/^/op /'
+    find-envchain-directories "$path" | sed 's/^/envchain /'
+  } | sort-by-most-specific
+}
+# endregion
+
+# region reading variable definitions in json
+read-op-variables() {
+  declare directory="$1"
+
+  op-item get "$directory" --format json \
+    | jq -Mc '.fields|map(select(.purpose!="NOTES")| {name: .label, value})|.[]'
+}
+
+read-env-variables() {
+  declare directory="$1/.env"
+  for file in "$directory"/*; do
+    local name value
+    name="$(basename "$file")"
+    jq -Mcn --arg name "$name" --arg value "$(cat "$file")" '{ $name, $value }'
+  done
+}
+
+read-envchain-variables() {
+  declare directory="$1"
+  read_variables() {
+    declare prefix="$1"
+
+    compgen -e \
+      | sed -n "s/^${prefix}_//p" \
+      | while read -r name; do
+        local full_name="${prefix}_${name}"
+        jq -Mcn --arg name "$name" --arg value "${!full_name}" '{ $name, $value }'
+      done
+  }
+
+  {
+    declare -f read_variables;
+    echo 'read_variables "$@"'
+  } | envchain "$directory" bash /dev/stdin "$NASSAU_ENV_ENVCHAIN_PREFIX"
+}
+
+list-variables() {
+  declare path="$1"
+  find-candidates-for-path "$path" | while read -r type dir; do
+    case "$type" in
+      op)
+        read-op-variables "$dir"
+        ;;
+      envchain)
+        read-envchain-variables "$dir"
+        ;;
+      env)
+        read-env-variables "$dir"
+        ;;
+    esac
+  done \
+    | jq -Mcs '.|map({key:.name, value})|from_entries'
+}
+# endregion
+
+# region interactive
+gum-choose-type() {
+  {
+    echo env
+    command -v op envchain | xargs -n1 basename
+  } | gum choose --cursor "» " --header "Choose type"
+}
+
+gum-choose-parent-directory() {
+  all-parent-directories "$1" | gum choose --cursor "» " --header "Choose directory"
+}
+
+# endregion
+
+# region setting variables
+set-op-variable() {
+  declare directory="$1" name="$2" value="$3"
+
+  if ! op-item get "$directory" >/dev/null 2>&1; then
+    op-item create --category "Secure Note" --title "$directory" </dev/tty >/dev/null
+  fi
+
+  if [ ! -f "$CONFIG_PATH_DIR_CACHE" ]; then
+    mkdir -p "$CONFIG_PATH"
+    op-item list --format json | jq -r '.[]|.title' > "$CONFIG_PATH_DIR_CACHE"
+  fi
+
+  op-item edit "$directory" "${name}[password]=$value" </dev/tty
+}
+
+set-env-variable() {
+  declare directory="$1" name="$2" value="$3"
+  local env_path="$directory/.env"
+
+  if [ -e "$env_path" ] && [ ! -d "$env_path" ]; then
+    echo "Cannot create source: $env_path already exists and is not a directory" >&2
+    return 1
+  fi
+
+  mkdir -p "$env_path"
+  echo -n "$value" > "$env_path/$name"
+}
+
+set-envchain-variable() {
+  declare directory="$1" name="$2" value="$3"
+  if is-multiline "$value"; then
+    echo "envchain can’t store multiline variables" >&2
+    return 1
+  fi
+
+  echo -n "$value" \
+    | envchain --set "$directory" "${NASSAU_ENV_ENVCHAIN_PREFIX}_${name}" \
+    >/dev/null
+}
+
+
+set-variable-at() {
+  declare name="$1" type="$2" dir="$3" original_dir="$4"
+  local value
+
+  get-value() {
+    if [ ! -t 0 ]; then
+      cat
+      return $?
+    fi
+
+    gum input --placeholder "value..."
+  }
+
+  if [ "initialize" == "$type" ]; then
+    dir="$(gum-choose-parent-directory "$original_dir")"
+    type="$(gum-choose-type)"
+  fi
+
+  value=$(get-value)
+
+  case "$type" in
+    "op")
+      set-op-variable "$dir" "$name" "$value"
+      ;;
+    "env")
+      set-env-variable "$dir" "$name" "$value"
+      ;;
+    "envchain")
+      set-envchain-variable "$dir" "$name" "$value"
+      ;;
+  esac
+}
+
+set-variable() {
+  declare name="${1:-}" directory="${2:-$(pwd)}"
+
+  if [ -z "${name}" ]; then
+    echo "Usage: $0 set <name> [<directory>]" >&2
+    return 1
+  fi
+
+  if [[ ! "$name" =~ ^[_[:alpha:]][_[:alnum:]]*$ ]]; then
+    echo "Invalid variable name: $name" >&2
+    return 1
+  fi
+
+  exec 3<&0
+
+  {
+    find-candidates-for-path "$directory" | reverse
+    echo "initialize new source"
+  } \
+   | gum choose --cursor "» " --header "Select env source root" --select-if-one \
+   | while read -r type selected; do
+        set-variable-at "$name" "$type" "$selected" "$directory" <&3
+     done
+
+}
+# endregion
+
+run() {
+  env -S "$(list-variables "$(pwd)" | jq -r '.|to_entries|map(.key+"="+(.value|@sh))|.[]')" "$@"
+}
+main () {
+  declare command="${1:-}"
+  [ -n "$command" ] && shift
+
+  case "$command" in
+    "detect")
+      find-candidates-for-path "${1:-$(pwd)}"
+      ;;
+    "set")
+      set-variable "$@"
+      ;;
+    "get")
+      list-variables "${1:-$(pwd)}"
+      ;;
+    "run")
+      run "$@"
+      ;;
+    *)
+      {
+        echo "Usage:"
+        echo " $0 detect [<dir>]"
+        echo " $0 set <var-name> [<dir>]"
+        echo " $0 get [<dir>]"
+        echo " $0 run <command> <args...>"
+      } >&2
+      return 1
+  esac
+}
+
+main "$@"
