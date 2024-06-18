@@ -11,9 +11,15 @@ function _autoenvfish --on-variable PWD
 end
 
 function _autoenvfish_log
-    if status --is-interactive
-        gum log --prefix AUTOENVFISH $argv >&2
+    if not status --is-interactive
+        return
     end
+    begin
+        set_color -d white
+        echo -n "AUTOENVFISH: "
+        set_color normal
+        echo $argv
+    end >&2
 end
 
 # Triggered upon change of $AUTOENVFISH_BUCKET, source it if the file exists
