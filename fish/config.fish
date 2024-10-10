@@ -1,4 +1,4 @@
-set PATH /opt/homebrew/bin ~/bin ~/.composer/vendor/bin ~/.dotfiles/node_modules/.bin ~/.n/bin $PATH
+set PATH /opt/homebrew/bin ~/bin ~/.composer/vendor/bin ~/.dotfiles/node_modules/.bin ~/.n/bin ~/.local/bin $PATH
 set EDITOR nano
 
 if test -d /Volumes/Dev;
@@ -19,3 +19,5 @@ export LC_ALL=en_US.UTF-8
 export N_PREFIX=$HOME/.n
 
 test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
+
+test -e {$HOME}/.config/op/plugins.sh ; and source {$HOME}/.config/op/plugins.sh
