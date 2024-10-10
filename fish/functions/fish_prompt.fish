@@ -73,14 +73,7 @@ function fish_prompt --description 'Write out the prompt'
 		set -g __fish_prompt_host (set_color $fish_color_host)
 	end
 
-    set -l mutagen_status 
-    is-mutagen-working; 
-    set -l st $status
-    if [ $st -eq 2 ];
-        set mutagen_status " 👻"
-    else if [ $st -eq 1 ];
-        set mutagen_status " 💥"
-    end
+	set -l mutagen_status (is-mutagen-working);
 
 	echo -n -s "$__fish_prompt_user" "$USER" "$__fish_prompt_normal" @ "$__fish_prompt_host" "$__fish_prompt_hostname" "$__fish_prompt_normal" ' ' "$__fish_prompt_cwd" (prompt_pwd) (__fish_git_prompt) "$__fish_prompt_normal" "$mutagen_status" "$prompt_status" "$delim" ' '
 end

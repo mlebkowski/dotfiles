@@ -1,18 +1,36 @@
 function mutagen-status
-  if [ -z "$MUTAGEN_IDENTIFIER" ]; 
+  set -l session_name $argv[1]
+
+  if [ -z "$session_name" ];
     return 0;
   end
 
-  set mstatus (mutagen sync list "$MUTAGEN_IDENTIFIER" 2>/dev/null)
-      
-  if [ -n "$mstatus" ]; and not printf "%s\n" "$mstatus" | grep -q "Status: Watching for changes";
-        printf "%s\n" "$mstatus" | grep "Status" >&2
-        if printf "%s\n" "$mstatus" | grep "Last error" >&2; 
-            return 2
-        else 
-            return 1
-        end
-    end
+  set mutagen_output (mutagen sync list -- "$session_name" 2>&1)
 
-    return 0
+  if string match -q -- "*unable to locate requested sessions*" "$mutagen_output"; 
+    echo "No session named $session_name found" >&2
+    return;
+  end
+
+  if string match -q -- "*Status: Watching for changes*" "$mutagen_output";
+    echo "Waiting for changes" >&2
+    echo " ✅"
+    return;
+  end
+
+  if string match -q -- "*Status: [Paused]*" "$mutagen_output";
+    echo "Paused" >&2
+    echo " ⏸️"
+    return;
+  end
+
+  if string match -q -- "*Last error*" "$mutagen_output";
+    printf "%s\n" "$mstatus" | grep "Status" >&2
+    printf "%s\n" "$mstatus" | grep "Last error" >&2;
+    echo " ☠️"
+    return;
+  end;
+  
+  printf "%s\n" "$mstatus" | grep "Status" >&2
+  echo " 💥"
 end
