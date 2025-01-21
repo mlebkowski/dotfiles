@@ -1,8 +1,11 @@
 .env
 *~
+~*
 .DS_Store
 vendor
 .env
+node_modules/
+.idea/
 
 docker-compose.motunui.yml
 docker-compose.local.yml

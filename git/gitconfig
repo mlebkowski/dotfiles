@@ -111,3 +111,10 @@
 
 [pretty]
 	present = Date: %ad%n%n%Cgreen%x23 %s%Creset%n%n%b
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+[init]
+	defaultBranch = main
