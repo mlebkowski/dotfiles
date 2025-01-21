@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+set -ueo pipefail
+
+APEX_DOMAIN="${APEX_DOMAIN?env variable required}"
+
+get_hosts() {
+  declare repo="$1"
+  gh variable list \
+    --repo "$repo" \
+    --json "name,value" \
+    --jq '.[]|select(.name|startswith("DEPLOY_HOST"))|.value' \
+  | parse_hosts
+}
+
+parse_hosts() {
+  jq --raw-input --raw-output --compact-output --monochrome-output \
+       '. | (fromjson?|join("\n")) // .'
+}
+
+main() {
+  declare repo="${1:-}"
+
+  if [[ -z "$repo" ]]; then
+    echo "Usage: $0 <repo>" >&2
+    return 1
+  fi
+
+  local hosts
+  hosts="$(get_hosts "$repo")"
+
+  env PS4="# " bash -xc "ssh-keyscan -qp 32784 $(printf "%s.$APEX_DOMAIN " ${hosts[@]})" 2>&1
+}
+
+main "$@"
