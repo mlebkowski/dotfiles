@@ -1,9 +1,9 @@
 gum
 pv
 jq
-jc
-jnv
-fx
+jc # convert ping to json
+jnv # interactive json viewer
+fx # ?? 
 httpie
 asciinema
 awscli
@@ -15,11 +15,12 @@ n
 diff-so-fancy
 percol
 wget
-yq
-mysql-client
+yq # yaml jq
+mysql-client@8.4
 mutagen-io/mutagen/mutagen
 nano
 docker
 docker-compose
 gpg
 lazydocker
+jless # json pager
