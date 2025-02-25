@@ -1,4 +1,4 @@
-set PATH /opt/homebrew/bin ~/bin ~/.composer/vendor/bin ~/.dotfiles/node_modules/.bin ~/.n/bin ~/.local/bin $PATH
+set PATH ~/.n/bin /opt/homebrew/bin ~/bin ~/.composer/vendor/bin ~/.dotfiles/node_modules/.bin ~/.local/bin $PATH
 set EDITOR nano
 
 if test -d /Volumes/Dev;
