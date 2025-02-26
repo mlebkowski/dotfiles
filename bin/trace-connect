@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+?() {
+  declare -p "$@" | bat -fl sh >&$BASH_XTRACEFD
+}
+
+main() {
+  echo '# you probably want to eval this: eval "$(trace-connect)"'
+
+  if [[ -n "$TRACE_CONNECT" ]]; then
+    echo 'exec {trace}> >(nc -U "$TRACE_CONNECT")'
+  else
+    echo 'exec {trace}> /dev/null'
+  fi
+
+  echo 'export BASH_XTRACEFD=$trace'
+  type ? | sed 1d
+}
+
+main "$@"
