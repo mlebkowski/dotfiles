@@ -1,0 +1,118 @@
+#!/usr/bin/env bash
+
+TOKEN="${GITHUB_TOKEN:-}"
+
+if [ -z "$TOKEN" ] && command -v gh >/dev/null 2>&1; then
+	TOKEN="$(gh auth token)"
+fi
+
+if [ -z "$TOKEN" ]; then
+	echo "GITHUB_TOKEN env required: https://github.com/settings/tokens" >&2
+	exit 2;
+fi
+
+
+set -euo pipefail
+
+_supports_hyperlinks() {
+	# https://iterm2.com/feature-reporting/
+	[[ "${TERM_FEATURES:-}" == *"H"* ]]
+}
+
+github_pull_requests() {
+	declare org="$1" username="$2"
+	local yellow=$'\e'[33m reset=$'\e'[0m
+	local query="is:pr state:open org:$org"
+	
+	case "$username" in
+		"dependabot")
+			query="$query author:dependabot[bot] review:none"
+		;;
+		*)
+			query="$query user-review-requested:$username"
+		;;
+	esac
+		
+	query="$(echo "$query" | jq -srR @uri)"
+
+	curl \
+		--silent \
+		--header "Authorization: Bearer $TOKEN" \
+		"https://api.github.com/search/issues?q=$query" |
+		jq --arg yellow "$yellow" --arg reset "$reset" -r '
+			.items|map({
+				repo: (.repository_url|split("/")[-1:]|join("/")),
+				url: .pull_request.url,
+				title,
+			})|map($yellow+"["+.repo+"] "+$reset+.title+"\t"+.url)|.[]
+		'
+}
+
+github_pr_details() {
+	declare url="$1"
+	local yellow=$'\e'[33m reset=$'\e'[0m
+
+	local pr title html_url
+
+	pr="$(curl --silent --header "Authorization: Bearer $TOKEN" "$url")"
+	title="$(echo "$pr" | jq -r .title)"
+	html_url="$(echo "$pr" | jq -r .html_url)"
+
+	if _supports_hyperlinks ; then
+		html_url="$(
+			printf \
+				'\e]8;;%s\e\\%s\e]8;;\e\\' \
+				"$html_url" \
+				"$(echo "$html_url" | jq -Rr 'split("/")|.[-3]+"#"+.[-1]')"
+		)"
+	fi
+		
+	echo "${yellow}[${html_url}]${reset} $title"
+}
+
+github_approve() {
+	declare url="$1"
+	local payload
+	
+	return
+	
+	payload="$(jq -n --arg event "APPROVE" '{$event}')"
+	curl --silent \
+		--request "POST" \
+		--data "$payload" \
+		--header "Authorization: Bearer $TOKEN" \
+		"$url/reviews" |
+	jq -r '.errors//[]|.[]'
+}
+
+main() {
+	declare org="${1:-}" username="${2:-@me}"
+	
+	if [ -z "$org" ]; then
+		echo "Usage: $0 <org> [<username>]" >&2 
+		return 1;
+	fi
+	
+	local green=$'\e'[32m red=$'\e'[31m reset=$'\e'[0m mark=$'\e'[s clear=$'\e'[u$'\e'[2K
+	local errors url title
+		
+
+	github_pull_requests "$org" "$username" |
+		gum choose --no-limit --no-strip-ansi --label-delimiter=$'\t' |
+	while read url; do
+		title="$(github_pr_details "$url")"
+		
+		echo "${mark}… $title"
+		errors="$(github_approve "$url")"
+		
+		if [ -n "$errors" ]; then
+			echo "${clear}${red}×${reset} $title"
+			echo "$errors" | sed -e s/^/" → $red"/ -e s/$/"$reset"/
+		else
+			echo "${clear}${green}✓${reset} $title"
+		fi
+	done
+}
+
+main "$@"
+		
