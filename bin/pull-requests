@@ -74,8 +74,6 @@ github_approve() {
 	declare url="$1"
 	local payload
 	
-	return
-	
 	payload="$(jq -n --arg event "APPROVE" '{$event}')"
 	curl --silent \
 		--request "POST" \
