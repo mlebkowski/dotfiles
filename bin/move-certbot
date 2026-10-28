@@ -2,9 +2,6 @@
 
 set -euo pipefail
 
-APEX_DOMAIN="${APEX_DOMAIN?env variable required}"
-LETSENCRYPT_EMAIL="${LETSENCRYPT_EMAIL:-sysadmins@$APEX_DOMAIN}"
-
 on_source() {
   declare domain="$1" renewal_conf="$2" archive_name="$3"
 
@@ -15,15 +12,15 @@ on_source() {
 }
 
 on_target() {
-  declare renewal_conf="$1" archive_name="$2"
+  declare renewal_conf="$1" archive_name="$2" email="$3"
   tar -xzvf "$archive_name" -C /
   shred -zu "$archive_name"
-  
+
   # ensure an account is registered:
-  certbot register -m "$LETSENCRYPT_EMAIL" --non-interactive --agree-tos || :
+  certbot register -m "$email" --non-interactive --agree-tos || :
   local account_id
   account_id="$(find /etc/letsencrypt/accounts/acme-v02.api.letsencrypt.org/directory/ -mindepth 1 -maxdepth 1 | xargs basename)"
-  
+
   sed -i -e "s/^account.*/account=$account_id/" "$renewal_conf"
 }
 
@@ -34,20 +31,23 @@ get_script_path() {
     echo "$script_path"
     return
   fi
-  
+
   command -v "$script_path"
 }
 
 on_host() {
   declare from="$1" to="$2" domain="$3"
-  
+
+  APEX_DOMAIN="${APEX_DOMAIN?env variable required}"
+
   if [[ -z "$from" ]] || [[ -z "$to" ]] || [[ -z "$domain" ]]; then
     echo "Usage: $0 <from-hostname> <to-hostname> <domain>" >&2
     return 1
   fi
-      
+
   from="$from.${APEX_DOMAIN}"
   to="$to.${APEX_DOMAIN}"
+  local email="${LETSENCRYPT_EMAIL:-sysadmins@$APEX_DOMAIN}"
 
   echo "Moving $domain from $from to $to"
   echo ""
@@ -60,10 +60,10 @@ on_host() {
 
   echo "Installing script on $from"
   scp "$script_path" "${from}:${bin_script_path}"
-    
+
   echo "Generating the archive on $from"
   ssh -t "$from" sudo bash "$bin_script_path" source "$domain" "$renewal_conf" "$archive_name"
-    
+
   echo "Moving archive from $from to $to"
   scp "$from:$archive_name" "$to:$archive_name"
 
@@ -72,9 +72,9 @@ on_host() {
 
   echo "Installing script on $to"
   scp "$script_path" "${to}:${bin_script_path}"
-  
+
   echo "Unpacking and configuring on $to"
-  ssh -t "$to" sudo "$bin_script_path" target "$renewal_conf" "$archive_name"
+  ssh -t "$to" sudo "$bin_script_path" target "$renewal_conf" "$archive_name" "$email"
 }
 
 main() {
@@ -93,3 +93,4 @@ main() {
 }
 
 main "$@"
+
